@@ -1,6 +1,7 @@
 package com.brunadelmouro.springmongodb.resources;
 
 
+import com.brunadelmouro.springmongodb.domain.Post;
 import com.brunadelmouro.springmongodb.domain.User;
 import com.brunadelmouro.springmongodb.dto.UserDTO;
 import com.brunadelmouro.springmongodb.services.UserService;
@@ -31,6 +32,13 @@ public class UserResource {
         List<UserDTO> listDto = users.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
 
         return ResponseEntity.ok().body(listDto);
+    }
+
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+        User obj = userService.findById(id);
+
+        return  ResponseEntity.ok().body(obj.getPosts());
     }
 
     @GetMapping(value = "/{id}")
